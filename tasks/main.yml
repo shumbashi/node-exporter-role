@@ -71,9 +71,6 @@
     path: /usr/sbin/cloudlinux-config
   register: cloudlinux_installed
 
-- debug:
-    var: cloudlinux_installed.stat
-
 - name: Add prometheus user to nagios group on cloudlinux servers
   user:
       name: prometheus
