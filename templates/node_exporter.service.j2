@@ -1,0 +1,38 @@
+[Unit]
+Description=Prometheus Node Exporter
+Documentation=https://github.com/prometheus/node_exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=prometheus
+Group=prometheus
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+ExecStart=/usr/local/bin/node_exporter \
+    --collector.cpu \
+    --collector.diskstats \
+    --collector.filesystem \
+    --collector.loadavg \
+    --collector.meminfo \
+    --collector.filefd \
+    --collector.netdev \
+    --collector.stat \
+    --collector.netstat \
+    --collector.systemd \
+    --collector.uname \
+    --collector.vmstat \
+    --collector.time \
+    --collector.mdadm \
+    --collector.zfs \
+    --collector.tcpstat \
+    --collector.bonding \
+    --collector.hwmon \
+    --collector.filesystem.ignored-mount-points "^/usr/share/cagefs-skeleton.*($|/)"
+    --collector.arp \
+    --web.listen-address=:{{ node_exporter_port }} \
+    --web.telemetry-path "/metrics"
+
+[Install]
+WantedBy=multi-user.target
