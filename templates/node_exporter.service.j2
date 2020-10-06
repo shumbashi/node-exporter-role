@@ -29,7 +29,7 @@ ExecStart=/usr/local/bin/node_exporter \
     --collector.tcpstat \
     --collector.bonding \
     --collector.hwmon \
-    --collector.filesystem.ignored-mount-points "^/usr/share/cagefs-skeleton.*($|/)"
+    --collector.filesystem.ignored-mount-points "^/usr/share/cagefs-skeleton.*($|/)" \
     --collector.arp \
     --web.listen-address=:{{ node_exporter_port }} \
     --web.telemetry-path "/metrics"
