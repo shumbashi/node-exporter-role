@@ -59,6 +59,11 @@
     daemon_reload: yes
   become: true
 
+- name: Get Linux Groups list
+  shell: "getent group | cut -d: -f1"
+  register: linux_groups
+
+
 - name: Check if this is a Cloudlinux server
   stat:
     path: /usr/sbin/cloudlinux-config
@@ -70,5 +75,14 @@
       create_home: no
       groups: clsupergid
       append: yes
-  when: cloudlinux_installed.stat.exists
+  when: cloudlinux_installed.stat.exists and "clsupergid" in linux_groups.stdout_lines
+  become: true
+
+- name: Add prometheus user to nagios group on cloudlinux servers if clsupergid does not exist (<= lve-4.2)
+  user:
+      name: prometheus
+      create_home: no
+      groups: nagios
+      append: yes
+  when: cloudlinux_installed.stat.exists and "nagios" in linux_groups.stdout_lines and not "clsupergid" in linux_groups.stdout_lines
   become: true
