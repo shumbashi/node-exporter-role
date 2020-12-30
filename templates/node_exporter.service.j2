@@ -9,7 +9,8 @@ Type=simple
 User=prometheus
 Group=prometheus
 ExecReload=/bin/kill -HUP $MAINPID
-Restart=on-failure
+Restart=always
+RestartSec=1
 ExecStart=/usr/local/bin/node_exporter \
     --collector.cpu \
     --collector.diskstats \
