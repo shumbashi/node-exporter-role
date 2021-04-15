@@ -4,4 +4,4 @@
   tasks:
     - name: "Include node_exporter_role"
       include_role:
-        name: "node_exporter_role"
+        name: "node-exporter-role"
